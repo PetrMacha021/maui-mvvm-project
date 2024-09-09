@@ -3,6 +3,7 @@ using endproject.Data;
 using endproject.Data.Models;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace endproject.ViewModels;
 
@@ -12,6 +13,8 @@ public class Main: INotifyPropertyChanged
     private int _id { get; }
 
     public List<Item> Items { get; set; }
+
+    public ICommand LogoutCommand { get; }
 
     public Main()
     {
@@ -23,6 +26,14 @@ public class Main: INotifyPropertyChanged
         _id = int.Parse(idTask.Result ?? string.Empty);
 
         Items = _database.GetItemsAsync(_id);
+
+        LogoutCommand = new Command(OnLogout);
+    }
+
+    private async void OnLogout()
+    {
+        SecureStorage.Default.Remove("auth_id");
+        await Shell.Current.GoToAsync("///Login");
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
