@@ -1,4 +1,4 @@
-﻿namespace endproject;
+﻿namespace endproject.Pages;
 
 public partial class MainPage : ContentPage
 {

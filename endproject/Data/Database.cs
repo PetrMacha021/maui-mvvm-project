@@ -3,11 +3,11 @@ using SQLite;
 
 namespace endproject.Data;
 
-public class ItemDatabase
+public class Database
 {
     SQLiteAsyncConnection _database;
 
-    public ItemDatabase()
+    public Database()
     {
     }
 
@@ -18,16 +18,24 @@ public class ItemDatabase
 
         _database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
         _database.CreateTableAsync<Item>().Wait();
+        _database.CreateTableAsync<User>().Wait();
     }
 
-    public List<Item> GetItemsAsync()
+    public List<Item> GetItemsAsync(int id)
     {
         Init();
 
-        var task = _database.Table<Item>().ToListAsync();
+        var task = _database.Table<Item>().Where(i => i.Id == id).ToListAsync();
 
         task.Wait();
         return task.Result;
+    }
+
+    public Task<User> GetUserByUsernameAsync(string username)
+    {
+        Init();
+
+        return _database.Table<User>().FirstOrDefaultAsync(u => u.Username == username);
     }
 
     public async Task<int> SaveItemAsync(Item item)

@@ -1,14 +1,21 @@
-﻿using SQLite;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using SQLite;
 
 namespace endproject.Data.Models;
 
-[Table("Items")]
+[SQLite.Table("Items")]
 public class Item
 {
     [PrimaryKey, AutoIncrement]
-    [Column("id")]
+    [SQLite.Column("id")]
     public int Id { get; set; }
 
-    [Column("message")]
+    [SQLite.Column("message")]
     public string Message { get; set; } = default!;
+
+    [SQLite.Column("owner_id"), ForeignKey("OwnerId")]
+    public int OwnerId { get; set; }
+
+    [Ignore]
+    public User Owner { get; set; }
 }

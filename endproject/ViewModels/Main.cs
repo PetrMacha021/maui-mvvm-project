@@ -8,14 +8,21 @@ namespace endproject.ViewModels;
 
 public class Main: INotifyPropertyChanged
 {
-    private ItemDatabase _database { get; }
+    private Database _database { get; }
+    private int _id { get; }
 
     public List<Item> Items { get; set; }
 
     public Main()
     {
-        _database = new ItemDatabase();
-        Items = _database.GetItemsAsync();
+        _database = new Database();
+
+        var idTask = SecureStorage.Default.GetAsync("auth_id");
+        idTask.Wait();
+
+        _id = int.Parse(idTask.Result ?? string.Empty);
+
+        Items = _database.GetItemsAsync(_id);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
