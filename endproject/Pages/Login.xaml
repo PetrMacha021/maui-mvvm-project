@@ -8,5 +8,6 @@
         <Entry Placeholder="Username" Text="{Binding Username}"></Entry>
         <Entry Placeholder="Password" Text="{Binding Password}" IsPassword="True"></Entry>
         <Button Text="Login" Command="{Binding LoginCommand}"></Button>
+        <Label Text="{Binding ErrorMessage}" TextColor="Red" />
     </StackLayout>
 </ContentPage>

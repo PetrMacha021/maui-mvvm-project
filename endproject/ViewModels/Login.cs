@@ -8,6 +8,7 @@ public class Login : BindableObject
 {
     private string _username;
     private string _password;
+    private string _errorMessage;
 
     public string Username
     {
@@ -25,6 +26,16 @@ public class Login : BindableObject
         set
         {
             _password = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string ErrorMessage
+    {
+        get => _errorMessage;
+        set
+        {
+            _errorMessage = value;
             OnPropertyChanged();
         }
     }
@@ -50,6 +61,7 @@ public class Login : BindableObject
         }
         else
         {
+            ErrorMessage = "Invalid username or password";
         }
     }
 }
