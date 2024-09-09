@@ -21,11 +21,11 @@ public class Database
         _database.CreateTableAsync<User>().Wait();
     }
 
-    public List<Item> GetItemsAsync(int id)
+    public List<Item> GetItems(int id)
     {
         Init();
 
-        var task = _database.Table<Item>().Where(i => i.Id == id).ToListAsync();
+        var task = _database.Table<Item>().Where(i => i.OwnerId == id).ToListAsync();
 
         task.Wait();
         return task.Result;

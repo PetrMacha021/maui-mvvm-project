@@ -15,7 +15,4 @@ public class Item
 
     [SQLite.Column("owner_id"), ForeignKey("OwnerId")]
     public int OwnerId { get; set; }
-
-    [Ignore]
-    public User Owner { get; set; }
 }
