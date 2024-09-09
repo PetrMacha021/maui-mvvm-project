@@ -1,4 +1,5 @@
 ﻿using endproject.Data.Models;
+using endproject.Services;
 using SQLite;
 
 namespace endproject.Data;
@@ -11,19 +12,25 @@ public class Database
     {
     }
 
-    void Init()
+    async Task Init()
     {
         if (_database is not null)
             return;
 
         _database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
-        _database.CreateTableAsync<Item>().Wait();
-        _database.CreateTableAsync<User>().Wait();
+        await _database.CreateTableAsync<Item>();
+        await _database.CreateTableAsync<User>();
+
+        string adminSalt = AuthService.GenerateSalt();
+        string adminPassword = AuthService.HashPassword("admin", adminSalt);
+        // TODO: Make this save only on database creation
+        // await SaveUserAsync(new User { Username = "admin", Password = adminPassword, Salt = adminSalt });
+        // await SaveItemAsync(new Item { Message = "test", OwnerId = 1 });
     }
 
     public List<Item> GetItems(int id)
     {
-        Init();
+        Init().Wait();
 
         var task = _database.Table<Item>().Where(i => i.OwnerId == id).ToListAsync();
 
@@ -31,19 +38,28 @@ public class Database
         return task.Result;
     }
 
-    public Task<User> GetUserByUsernameAsync(string username)
+    public async Task<User> GetUserByUsernameAsync(string username)
     {
-        Init();
+        await Init();
 
-        return _database.Table<User>().FirstOrDefaultAsync(u => u.Username == username);
+        return await _database.Table<User>().FirstOrDefaultAsync(u => u.Username == username);
     }
 
     public async Task<int> SaveItemAsync(Item item)
     {
-        Init();
+        await Init();
         if (item.Id != 0)
             return await _database.UpdateAsync(item);
 
         return await _database.InsertAsync(item);
+    }
+
+    public async Task<int> SaveUserAsync(User user)
+    {
+        await Init();
+        if (user.Id != 0)
+            return await _database.UpdateAsync(user);
+
+        return await _database.InsertAsync(user);
     }
 }

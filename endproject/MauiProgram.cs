@@ -1,4 +1,5 @@
 ﻿using endproject.Data;
+using endproject.Services;
 using Microsoft.Extensions.Logging;
 
 namespace endproject;
@@ -17,6 +18,11 @@ public static class MauiProgram
             });
 
         builder.Services.AddSingleton<Database>();
+        builder.Services.AddSingleton<AuthService>();
+        builder.Services.AddSingleton<ViewModels.Login>();
+        builder.Services.AddSingleton<ViewModels.Main>();
+        builder.Services.AddSingleton<Pages.MainPage>();
+        builder.Services.AddSingleton<Pages.Login>();
 
 #if DEBUG
         builder.Logging.AddDebug();

@@ -11,6 +11,7 @@ public class User
     public int Id { get; set; }
 
     [Column("username")]
+    [Unique]
     [Display(Prompt = "admin", Name = "Username")]
     public string Username { get; set; }
 
@@ -18,4 +19,7 @@ public class User
     [Display(Name = "Password")]
     [DataType(DataType.Password)]
     public string Password { get; set; }
+
+    [Column("salt")]
+    public string Salt { get; set; }
 }

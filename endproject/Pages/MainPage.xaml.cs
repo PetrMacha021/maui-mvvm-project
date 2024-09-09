@@ -2,8 +2,9 @@
 
 public partial class MainPage : ContentPage
 {
-    public MainPage()
+    public MainPage(IServiceProvider provider)
     {
         InitializeComponent();
+        BindingContext = provider.GetService<ViewModels.Main>();
     }
 }

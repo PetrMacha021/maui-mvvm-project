@@ -1,15 +1,14 @@
 ﻿using endproject.Data;
 using endproject.Services;
+using endproject.ViewModels;
 
 namespace endproject.Pages;
 
 public partial class Login : ContentPage
 {
-    public Login()
+    public Login(IServiceProvider provider)
     {
         InitializeComponent();
-        var database = new Database();
-        var authService = new AuthService(database);
-        BindingContext = new ViewModels.Login(authService);
+        BindingContext = provider.GetService<ViewModels.Login>();
     }
 }

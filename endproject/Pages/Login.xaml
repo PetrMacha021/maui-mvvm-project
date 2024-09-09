@@ -2,7 +2,6 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:endproject.ViewModels"
              x:Class="endproject.Pages.Login">
     <StackLayout Padding="10">
         <Entry Placeholder="Username" Text="{Binding Username}"></Entry>

@@ -1,5 +1,5 @@
-﻿using System.Windows.Input;
-using endproject.Data.Models;
+﻿using System.ComponentModel;
+using System.Windows.Input;
 using endproject.Services;
 
 namespace endproject.ViewModels;

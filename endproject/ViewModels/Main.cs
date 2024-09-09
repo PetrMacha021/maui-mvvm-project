@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using endproject.Data;
 using endproject.Data.Models;
 using System.Diagnostics;
@@ -7,13 +8,13 @@ using System.Windows.Input;
 
 namespace endproject.ViewModels;
 
-public class Main: INotifyPropertyChanged
+public class Main: BindableObject
 {
     private Database _database { get; }
     private int _id { get; }
-    private List<Item> _items;
+    private ObservableCollection<Item> _items;
 
-    public List<Item> Items
+    public ObservableCollection<Item> Items
     {
         get => _items;
         set
@@ -38,16 +39,16 @@ public class Main: INotifyPropertyChanged
         }
     }
 
-    public Main()
+    public Main(Database database)
     {
-        _database = new Database();
+        _database = database;
 
         var idTask = SecureStorage.Default.GetAsync("auth_id");
         idTask.Wait();
 
         _id = int.Parse(idTask.Result ?? string.Empty);
 
-        _items = _database.GetItems(_id);
+        _items = new ObservableCollection<Item>(_database.GetItems(_id));
 
         LogoutCommand = new Command(OnLogout);
         AddCommand = new Command(OnAdd);
@@ -63,13 +64,12 @@ public class Main: INotifyPropertyChanged
     {
         var newItem = new Item()
         {
-            Id = 0,
             Message = _message,
             OwnerId = _id
         };
         await _database.SaveItemAsync(newItem);
 
-        Items = _database.GetItems(_id);
+        Items.Add(newItem);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
