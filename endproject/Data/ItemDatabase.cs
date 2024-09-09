@@ -11,24 +11,28 @@ public class ItemDatabase
     {
     }
 
-    async Task Init()
+    void Init()
     {
         if (_database is not null)
             return;
 
         _database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
-        var result = await _database.CreateTableAsync<Item>();
+        _database.CreateTableAsync<Item>().Wait();
     }
 
-    public async Task<List<Item>> GetItemsAsync()
+    public List<Item> GetItemsAsync()
     {
-        await Init();
-        return await _database.Table<Item>().ToListAsync();
+        Init();
+
+        var task = _database.Table<Item>().ToListAsync();
+
+        task.Wait();
+        return task.Result;
     }
 
     public async Task<int> SaveItemAsync(Item item)
     {
-        await Init();
+        Init();
         if (item.Id != 0)
             return await _database.UpdateAsync(item);
 
