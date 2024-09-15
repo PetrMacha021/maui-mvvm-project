@@ -65,14 +65,21 @@
     </ItemGroup>
 
     <ItemGroup>
-      <MauiXaml Update="Pages\MainPage.xaml">
+      <MauiXaml Update="Pages\Main\MainPage.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
+      <MauiXaml Update="Pages\Main\Users.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Pages\MainPage.xaml.cs">
+      <Compile Update="Pages\Main\MainPage.xaml.cs">
         <DependentUpon>MainPage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Pages\Main\Users.xaml.cs">
+        <DependentUpon>Users.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>

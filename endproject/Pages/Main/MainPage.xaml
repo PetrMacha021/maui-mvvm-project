@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="endproject.Pages.MainPage">
+    <Grid Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <ScrollView>
+            <ListView ItemsSource="{Binding Items}" BackgroundColor="Transparent">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Padding="5,10" Text="{Binding Message}"></Label>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollView>
+
+        <Grid Grid.Row="1" VerticalOptions="End">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <Button Text="Logout" Command="{Binding LogoutCommand}"></Button>
+            <Entry Grid.Column="1" Placeholder="Message" Text="{Binding Message}"></Entry>
+            <Button Grid.Column="2" Text="Add" Command="{Binding AddCommand}"></Button>
+        </Grid>
+    </Grid>
+</ContentPage>

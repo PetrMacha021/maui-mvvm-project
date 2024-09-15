@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using endproject.Data;
 using endproject.Data.Models;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
@@ -57,7 +56,7 @@ public class Main: BindableObject
     private async void OnLogout()
     {
         SecureStorage.Default.Remove("auth_id");
-        await Shell.Current.GoToAsync("///Login");
+        App.Current.MainPage = new AppShell();
     }
 
     private async void OnAdd()

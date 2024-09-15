@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using endproject.Pages;
 using endproject.Services;
 
 namespace endproject.ViewModels;
@@ -57,7 +57,7 @@ public class Login : BindableObject
         if (isAuthenticated && user != null)
         {
             await SecureStorage.Default.SetAsync("auth_id", user.Id.ToString());
-            await Shell.Current.GoToAsync("///Main");
+            App.Current.MainPage = new MainShell();
         }
         else
         {
