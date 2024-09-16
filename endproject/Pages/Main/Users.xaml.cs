@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace endproject.Pages;
+﻿namespace endproject.Pages.Main;
 
 public partial class Users : ContentPage
 {
-    public Users()
+    public Users(IServiceProvider provider)
     {
         InitializeComponent();
+        BindingContext = provider.GetService<ViewModels.Users>();
     }
 }

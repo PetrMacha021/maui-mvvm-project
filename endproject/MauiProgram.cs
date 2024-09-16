@@ -21,8 +21,10 @@ public static class MauiProgram
         builder.Services.AddSingleton<AuthService>();
         builder.Services.AddSingleton<ViewModels.Login>();
         builder.Services.AddSingleton<ViewModels.Main>();
-        builder.Services.AddSingleton<Pages.MainPage>();
+        builder.Services.AddSingleton<ViewModels.Users>();
         builder.Services.AddSingleton<Pages.Login>();
+        builder.Services.AddSingleton<Pages.Main.MainPage>();
+        builder.Services.AddSingleton<Pages.Main.Users>();
 
 #if DEBUG
         builder.Logging.AddDebug();

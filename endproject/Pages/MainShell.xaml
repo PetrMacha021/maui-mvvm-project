@@ -3,14 +3,15 @@
 <Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:endproject.Pages"
+             xmlns:main="clr-namespace:endproject.Pages.Main"
              x:Class="endproject.Pages.MainShell"
              Shell.FlyoutBehavior="Disabled">
     <TabBar>
         <Tab Title="List">
-            <ShellContent ContentTemplate="{DataTemplate pages:MainPage}" />
+            <ShellContent ContentTemplate="{DataTemplate main:MainPage}" />
         </Tab>
         <Tab Title="Users">
-            <ShellContent ContentTemplate="{DataTemplate pages:Users}" />
+            <ShellContent ContentTemplate="{DataTemplate main:Users}" />
         </Tab>
     </TabBar>
 </Shell>

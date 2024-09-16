@@ -54,6 +54,13 @@ public class Database
         return await _database.InsertAsync(item);
     }
 
+    public async Task<List<User>> GetAllUsers()
+    {
+        await Init();
+
+        return await _database.Table<User>().ToListAsync();
+    }
+
     public async Task<int> SaveUserAsync(User user)
     {
         await Init();
