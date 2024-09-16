@@ -45,11 +45,14 @@ public class Profile: BindableObject
             _user.Username = _username;
         }
 
-        var salt = AuthService.GenerateSalt();
-        var hashedPassword = AuthService.HashPassword(_password, salt);
+        if (_password != "")
+        {
+            var salt = AuthService.GenerateSalt();
+            var hashedPassword = AuthService.HashPassword(_password, salt);
 
-        _user.Password = hashedPassword;
-        _user.Salt = salt;
+            _user.Password = hashedPassword;
+            _user.Salt = salt;
+        }
 
         await _database.SaveUserAsync(_user);
     }

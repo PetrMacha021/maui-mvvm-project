@@ -76,4 +76,11 @@ public class Database
 
         return await _database.InsertAsync(user);
     }
+
+    public async Task<int> RemoveItem(int id)
+    {
+        await Init();
+
+        return await _database.Table<Item>().Where(i => i.Id == id).DeleteAsync();
+    }
 }

@@ -24,6 +24,7 @@ public class Main : BindableObject
     }
 
     public ICommand AddCommand { get; }
+    public ICommand RemoveItem { get; }
 
     private string _message;
 
@@ -53,6 +54,7 @@ public class Main : BindableObject
         _items = new ObservableCollection<Item>(_database.GetItems(_id));
 
         AddCommand = new Command(OnAdd);
+        RemoveItem = new Command(OnRemoveItem);
     }
 
     private async void OnAdd()
@@ -67,6 +69,16 @@ public class Main : BindableObject
         Items.Add(newItem);
 
         Message = "";
+    }
+
+    private async void OnRemoveItem(object parameter)
+    {
+        if (parameter is not int id) return;
+
+        await _database.RemoveItem(id);
+
+        var itemToRemove = Items.FirstOrDefault(item => item.Id == id);
+        if (itemToRemove != null) Items.Remove(itemToRemove);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
