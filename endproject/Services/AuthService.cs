@@ -21,6 +21,7 @@ public class AuthService
         rng.NextBytes(buffer);
         return Convert.ToBase64String(buffer);
     }
+
     public static string HashPassword(string password, string salt)
     {
         using (SHA512 sha512 = SHA512.Create())

@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace endproject.ViewModels;
 
-public class Main: BindableObject
+public class Main : BindableObject
 {
     private Database _database { get; }
     private int _id { get; }
@@ -42,10 +42,14 @@ public class Main: BindableObject
     {
         _database = database;
 
-        var idTask = SecureStorage.Default.GetAsync("auth_id");
-        idTask.Wait();
+        var id = Task.Run(async () => await SecureStorage.Default.GetAsync("auth_id")).Result;
+        if (id == null)
+        {
+            OnLogout();
+            return;
+        }
 
-        _id = int.Parse(idTask.Result ?? string.Empty);
+        _id = int.Parse(id);
 
         _items = new ObservableCollection<Item>(_database.GetItems(_id));
 
@@ -53,7 +57,7 @@ public class Main: BindableObject
         AddCommand = new Command(OnAdd);
     }
 
-    private async void OnLogout()
+    private void OnLogout()
     {
         SecureStorage.Default.Remove("auth_id");
         App.Current.MainPage = new AppShell();

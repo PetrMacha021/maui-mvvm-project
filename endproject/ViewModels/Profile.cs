@@ -1,0 +1,83 @@
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using endproject.Data;
+using endproject.Data.Models;
+using endproject.Services;
+
+namespace endproject.ViewModels;
+
+public class Profile: BindableObject
+{
+    private Database _database;
+    private int _id;
+    private User _user;
+    private string _username;
+    private string _password;
+
+    public string Username
+    {
+        get => _username;
+        set
+        {
+            _username = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string Password
+    {
+        get => _password;
+        set
+        {
+            _password = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public ICommand ChangeCommand { get; }
+
+    private async void OnChange()
+    {
+        if (_user.Username != _username)
+        {
+            _user.Username = _username;
+        }
+
+        var _salt = AuthService.GenerateSalt();
+        var _hashedPassword = AuthService.HashPassword(_password, _salt);
+
+        _user.Password = _hashedPassword;
+        _user.Salt = _salt;
+
+        await _database.SaveUserAsync(_user);
+    }
+
+    public Profile(Database database)
+    {
+        _database = database;
+
+        ChangeCommand = new Command(OnChange);
+
+        var id = Task.Run(async () => await SecureStorage.Default.GetAsync("auth_id")).Result;
+        if (id == null)
+        {
+            App.Current.MainPage = new AppShell();
+            return;
+        }
+
+        _id = int.Parse(id);
+
+        var user = Task.Run(async () => await _database.GetUser(_id)).Result;
+
+        Username = user.Username;
+        _user = user;
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+}
