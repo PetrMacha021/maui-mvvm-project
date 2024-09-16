@@ -24,13 +24,11 @@
 
             <Grid Grid.Row="1" VerticalOptions="End">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <Button Text="Logout" Command="{Binding LogoutCommand}"></Button>
-                <Entry Grid.Column="1" Placeholder="Message" Text="{Binding Message}"></Entry>
-                <Button Grid.Column="2" Text="Add" Command="{Binding AddCommand}"></Button>
+                <Entry Placeholder="Message" Text="{Binding Message}"></Entry>
+                <Button Grid.Column="1" Text="Add" Command="{Binding AddCommand}"></Button>
             </Grid>
         </Grid>
     </ContentPage.Content>

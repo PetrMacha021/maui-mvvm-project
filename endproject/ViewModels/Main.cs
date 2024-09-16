@@ -23,7 +23,6 @@ public class Main : BindableObject
         }
     }
 
-    public ICommand LogoutCommand { get; }
     public ICommand AddCommand { get; }
 
     private string _message;
@@ -45,7 +44,7 @@ public class Main : BindableObject
         var id = Task.Run(async () => await SecureStorage.Default.GetAsync("auth_id")).Result;
         if (id == null)
         {
-            OnLogout();
+            Profile.Logout();
             return;
         }
 
@@ -53,14 +52,7 @@ public class Main : BindableObject
 
         _items = new ObservableCollection<Item>(_database.GetItems(_id));
 
-        LogoutCommand = new Command(OnLogout);
         AddCommand = new Command(OnAdd);
-    }
-
-    private void OnLogout()
-    {
-        SecureStorage.Default.Remove("auth_id");
-        App.Current.MainPage = new AppShell();
     }
 
     private async void OnAdd()

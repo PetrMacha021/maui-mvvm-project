@@ -8,6 +8,7 @@
             <Entry Placeholder="Username" Text="{Binding Username}"></Entry>
             <Entry Placeholder="Password" Text="{Binding Password}" IsPassword="True"></Entry>
             <Button Text="Change" Command="{Binding ChangeCommand}"></Button>
+            <Button Text="Logout" Command="{Binding LogoutCommand}"></Button>
         </VerticalStackLayout>
     </ContentPage.Content>
 </ContentPage>

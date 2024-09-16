@@ -36,6 +36,7 @@ public class Profile: BindableObject
     }
 
     public ICommand ChangeCommand { get; }
+    public ICommand LogoutCommand { get; }
 
     private async void OnChange()
     {
@@ -53,11 +54,18 @@ public class Profile: BindableObject
         await _database.SaveUserAsync(_user);
     }
 
+    public static void Logout()
+    {
+        SecureStorage.Default.Remove("auth_id");
+        App.Current.MainPage = new AppShell();
+    }
+
     public Profile(Database database)
     {
         _database = database;
 
         ChangeCommand = new Command(OnChange);
+        LogoutCommand = new Command(Logout);
 
         var id = Task.Run(async () => await SecureStorage.Default.GetAsync("auth_id")).Result;
         if (id == null)
