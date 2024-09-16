@@ -12,6 +12,7 @@ public class Main : BindableObject
     private Database _database { get; }
     private int _id { get; }
     private ObservableCollection<Item> _items;
+    private Item? _selectedItem;
 
     public ObservableCollection<Item> Items
     {
@@ -23,8 +24,23 @@ public class Main : BindableObject
         }
     }
 
+    public Item? SelectedItem
+    {
+        get => _selectedItem;
+        set
+        {
+            _selectedItem = value;
+            if (_selectedItem == null) return;
+            Title = _selectedItem.Title;
+            Message = _selectedItem.Message;
+
+            OnPropertyChanged();
+        }
+    }
+
     public ICommand AddCommand { get; }
     public ICommand RemoveItem { get; }
+    public ICommand EditItem { get; }
 
     private string _message;
 
@@ -79,6 +95,7 @@ public class Main : BindableObject
 
         AddCommand = new Command(OnAdd);
         RemoveItem = new Command(OnRemoveItem);
+        EditItem = new Command(OnEditItem);
     }
 
     private async void OnAdd()
@@ -93,6 +110,7 @@ public class Main : BindableObject
 
         Items.Add(newItem);
 
+        Title = "";
         Message = "";
     }
 
@@ -104,6 +122,12 @@ public class Main : BindableObject
 
         var itemToRemove = Items.FirstOrDefault(item => item.Id == id);
         if (itemToRemove != null) Items.Remove(itemToRemove);
+    }
+
+    private void OnEditItem(object parameter)
+    {
+        if (parameter is not Item item) return;
+        SelectedItem = item;
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
