@@ -12,14 +12,26 @@
             </Grid.RowDefinitions>
 
             <ScrollView>
-                <ListView ItemsSource="{Binding Items}" BackgroundColor="Transparent">
+                <ListView ItemsSource="{Binding Items}" BackgroundColor="Transparent" ItemSelected="ListView_OnItemSelected" Unfocused="VisualElement_OnUnfocused">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <HorizontalStackLayout >
-                                    <Label Padding="5,10" Text="{Binding Message}"></Label>
-                                    <Button Text="Remove" Command="{Binding Source={RelativeSource AncestorType={x:Type local:Main}}, Path=RemoveItem}" CommandParameter="{Binding Id}" />
-                                </HorizontalStackLayout>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Label Padding="5,10" Text="{Binding Title}"></Label>
+
+                                    <Label Grid.Row="1" Grid.Column="0" Padding="5,5" Text="{Binding Message}" IsVisible="{Binding IsMessageVisible}"></Label>
+
+                                    <Button Grid.Row="0" Grid.Column="1" HorizontalOptions="End" Text="Remove" Command="{Binding Source={RelativeSource AncestorType={x:Type local:Main}}, Path=RemoveItem}" CommandParameter="{Binding Id}" />
+                                </Grid>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -31,8 +43,13 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <Entry Placeholder="Message" Text="{Binding Message}"></Entry>
-                <Button Grid.Column="1" Text="Add" Command="{Binding AddCommand}"></Button>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Entry Placeholder="Title" Text="{Binding Title}"></Entry>
+                <Entry Grid.Row="1" Grid.Column="0" Placeholder="Message" Text="{Binding Message}"></Entry>
+                <Button Grid.Row="1" Grid.Column="1" Text="Add" Command="{Binding AddCommand}"></Button>
             </Grid>
         </Grid>
     </ContentPage.Content>

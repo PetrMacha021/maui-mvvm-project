@@ -38,6 +38,30 @@ public class Main : BindableObject
         }
     }
 
+    private string _title;
+
+    public string Title
+    {
+        get => _title;
+        set
+        {
+            _title = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private bool _isMessageVisible;
+
+    public bool IsMessageVisible
+    {
+        get => _isMessageVisible;
+        set
+        {
+            _isMessageVisible = value;
+            OnPropertyChanged();
+        }
+    }
+
     public Main(Database database)
     {
         _database = database;
@@ -61,6 +85,7 @@ public class Main : BindableObject
     {
         var newItem = new Item()
         {
+            Title = _title,
             Message = _message,
             OwnerId = _id
         };
