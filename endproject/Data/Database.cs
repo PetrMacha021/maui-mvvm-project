@@ -65,7 +65,7 @@ public class Database
     {
         await Init();
 
-        return await _database.Table<User>().FirstOrDefaultAsync();
+        return await _database.Table<User>().Where(u => u.Id == id).FirstOrDefaultAsync();
     }
 
     public async Task<int> SaveUserAsync(User user)

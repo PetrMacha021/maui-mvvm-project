@@ -27,6 +27,13 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Entry Grid.Row="0" Placeholder="Username" Text="{Binding Username}"></Entry>
+                <Entry Grid.Column="0" Grid.Row="1" Placeholder="Password" Text="{Binding Password}" IsPassword="True"></Entry>
+                <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Text="Add" Command="{Binding AddCommand}"></Button>
             </Grid>
         </Grid>
     </ContentPage.Content>

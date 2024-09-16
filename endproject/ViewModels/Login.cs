@@ -63,5 +63,8 @@ public class Login : BindableObject
         {
             ErrorMessage = "Invalid username or password";
         }
+
+        Username = "";
+        Password = "";
     }
 }

@@ -73,6 +73,8 @@ public class Main : BindableObject
         await _database.SaveItemAsync(newItem);
 
         Items.Add(newItem);
+
+        Message = "";
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
