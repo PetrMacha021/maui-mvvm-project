@@ -14,6 +14,7 @@ public class Profile : BindableObject {
     private string _username;
     private string _password;
     private string _errorMessage;
+    private string _successMessage;
 
     public Profile(Database database) {
         _database = database;
@@ -44,6 +45,7 @@ public class Profile : BindableObject {
         set {
             _username    = value;
             ErrorMessage = "";
+            SuccessMessage = "";
             OnPropertyChanged();
         }
     }
@@ -51,8 +53,9 @@ public class Profile : BindableObject {
     public string Password {
         get => _password;
         set {
-            _password    = value;
-            ErrorMessage = "";
+            _password      = value;
+            ErrorMessage   = "";
+            SuccessMessage = "";
             OnPropertyChanged();
         }
     }
@@ -61,6 +64,14 @@ public class Profile : BindableObject {
         get => _errorMessage;
         set {
             _errorMessage = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string SuccessMessage {
+        get => _successMessage;
+        set {
+            _successMessage = value;
             OnPropertyChanged();
         }
     }
@@ -98,9 +109,10 @@ public class Profile : BindableObject {
 
         if (changed) {
             await _database.SaveUserAsync(_user);
-            ErrorMessage = "";
+            ErrorMessage   = "";
+            SuccessMessage = "Profile has been updated";
         }
-        else ErrorMessage = "No data has been changed";
+        else ErrorMessage = "Nothing changed";
     }
 
     public static void Logout() {

@@ -8,6 +8,7 @@
             <Entry Placeholder="Username" Text="{Binding Username}" />
             <Entry Placeholder="Password" Text="{Binding Password}" IsPassword="True" />
             <Label Text="{Binding ErrorMessage}" TextColor="Red" />
+            <Label Text="{Binding SuccessMessage}" TextColor="GreenYellow" />
             <Button Text="Change" Command="{Binding ChangeCommand}" />
             <Button Text="Logout" Command="{Binding LogoutCommand}" />
         </VerticalStackLayout>
