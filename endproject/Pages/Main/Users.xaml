@@ -15,7 +15,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Label Padding="5,10" Text="{Binding Username}"></Label>
+                                <Label Padding="5,10" Text="{Binding Username}" />
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -30,10 +30,12 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Entry Grid.Row="0" Placeholder="Username" Text="{Binding Username}"></Entry>
-                <Entry Grid.Column="0" Grid.Row="1" Placeholder="Password" Text="{Binding Password}" IsPassword="True"></Entry>
-                <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Text="Add" Command="{Binding AddCommand}"></Button>
+                <Label Text="{Binding ErrorMessage}" TextColor="Red" />
+                <Entry Grid.Column="0" Grid.Row="1" Placeholder="Username" Text="{Binding Username}" />
+                <Entry Grid.Column="0" Grid.Row="2" Placeholder="Password" Text="{Binding Password}" IsPassword="True" />
+                <Button Grid.Column="1" Grid.Row="2" Text="Add" Command="{Binding AddCommand}" />
             </Grid>
         </Grid>
     </ContentPage.Content>

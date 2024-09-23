@@ -4,9 +4,9 @@ using SQLite;
 namespace endproject.Data.Models;
 
 [Table("Users")]
-public class User
-{
-    [PrimaryKey, AutoIncrement]
+public class User {
+    [PrimaryKey]
+    [AutoIncrement]
     [Column("id")]
     public int Id { get; set; }
 
@@ -20,6 +20,5 @@ public class User
     [DataType(DataType.Password)]
     public string Password { get; set; }
 
-    [Column("salt")]
-    public string Salt { get; set; }
+    [Column("salt")] public string Salt { get; set; }
 }

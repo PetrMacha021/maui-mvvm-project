@@ -1,90 +1,28 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using endproject.Data;
-using endproject.Data.Models;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using endproject.Data;
+using endproject.Data.Models;
 
 namespace endproject.ViewModels;
 
-public class Main : BindableObject
-{
-    private Database _database { get; }
-    private int _id { get; }
+public class Main : BindableObject {
+    private bool _isMessageVisible;
     private ObservableCollection<Item> _items;
-    private Item? _selectedItem;
-
-    public ObservableCollection<Item> Items
-    {
-        get => _items;
-        set
-        {
-            _items = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public Item? SelectedItem
-    {
-        get => _selectedItem;
-        set
-        {
-            _selectedItem = value;
-            if (_selectedItem == null) return;
-            Title = _selectedItem.Title;
-            Message = _selectedItem.Message;
-
-            OnPropertyChanged();
-        }
-    }
-
-    public ICommand AddCommand { get; }
-    public ICommand RemoveItem { get; }
-    public ICommand EditItem { get; }
 
     private string _message;
-
-    public string Message
-    {
-        get => _message;
-        set
-        {
-            _message = value;
-            OnPropertyChanged();
-        }
-    }
+    private Item? _selectedItem;
 
     private string _title;
 
-    public string Title
-    {
-        get => _title;
-        set
-        {
-            _title = value;
-            OnPropertyChanged();
-        }
-    }
+    private string _errorMessage;
 
-    private bool _isMessageVisible;
-
-    public bool IsMessageVisible
-    {
-        get => _isMessageVisible;
-        set
-        {
-            _isMessageVisible = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public Main(Database database)
-    {
+    public Main(Database database) {
         _database = database;
 
         var id = Task.Run(async () => await SecureStorage.Default.GetAsync("auth_id")).Result;
-        if (id == null)
-        {
+        if (id == null) {
             Profile.Logout();
             return;
         }
@@ -95,14 +33,76 @@ public class Main : BindableObject
 
         AddCommand = new Command(OnAdd);
         RemoveItem = new Command(OnRemoveItem);
-        EditItem = new Command(OnEditItem);
+        EditItem   = new Command(OnEditItem);
     }
 
-    private async void OnAdd()
-    {
-        var newItem = new Item()
-        {
-            Title = _title,
+    private Database _database { get; }
+    private int _id { get; }
+
+    public ObservableCollection<Item> Items {
+        get => _items;
+        set {
+            _items = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public Item? SelectedItem {
+        get => _selectedItem;
+        set {
+            _selectedItem = value;
+            if (_selectedItem == null) return;
+            Title   = _selectedItem.Title;
+            Message = _selectedItem.Message;
+
+            OnPropertyChanged();
+        }
+    }
+
+    public ICommand AddCommand { get; }
+    public ICommand RemoveItem { get; }
+    public ICommand EditItem { get; }
+
+    public string Message {
+        get => _message;
+        set {
+            _message = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string Title {
+        get => _title;
+        set {
+            _title = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string ErrorMessage {
+        get => _errorMessage;
+        set {
+            _errorMessage = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool IsMessageVisible {
+        get => _isMessageVisible;
+        set {
+            _isMessageVisible = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private async void OnAdd() {
+        if (string.IsNullOrEmpty(_title) || string.IsNullOrEmpty(_message)) {
+            ErrorMessage = "You have to fill in both entries in to add an item.";
+            return;
+        }
+
+        var newItem = new Item {
+            Title   = _title,
             Message = _message,
             OwnerId = _id
         };
@@ -110,12 +110,12 @@ public class Main : BindableObject
 
         Items.Add(newItem);
 
-        Title = "";
-        Message = "";
+        Title        = "";
+        Message      = "";
+        ErrorMessage = "";
     }
 
-    private async void OnRemoveItem(object parameter)
-    {
+    private async void OnRemoveItem(object parameter) {
         if (parameter is not int id) return;
 
         await _database.RemoveItem(id);
@@ -124,16 +124,8 @@ public class Main : BindableObject
         if (itemToRemove != null) Items.Remove(itemToRemove);
     }
 
-    private void OnEditItem(object parameter)
-    {
+    private void OnEditItem(object parameter) {
         if (parameter is not Item item) return;
         SelectedItem = item;
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

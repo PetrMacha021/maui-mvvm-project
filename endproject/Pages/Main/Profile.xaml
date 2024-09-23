@@ -5,10 +5,10 @@
              x:Class="endproject.Pages.Main.Profile">
     <ContentPage.Content>
         <VerticalStackLayout>
-            <Entry Placeholder="Username" Text="{Binding Username}"></Entry>
-            <Entry Placeholder="Password" Text="{Binding Password}" IsPassword="True"></Entry>
-            <Button Text="Change" Command="{Binding ChangeCommand}"></Button>
-            <Button Text="Logout" Command="{Binding LogoutCommand}"></Button>
+            <Entry Placeholder="Username" Text="{Binding Username}" />
+            <Entry Placeholder="Password" Text="{Binding Password}" IsPassword="True" />
+            <Button Text="Change" Command="{Binding ChangeCommand}" />
+            <Button Text="Logout" Command="{Binding LogoutCommand}" />
         </VerticalStackLayout>
     </ContentPage.Content>
 </ContentPage>

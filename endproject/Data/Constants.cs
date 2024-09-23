@@ -2,8 +2,7 @@
 
 namespace endproject.Data;
 
-public class Constants
-{
+public class Constants {
     public const string DatabaseFilename = "maui.db";
 
     public const SQLiteOpenFlags Flags =

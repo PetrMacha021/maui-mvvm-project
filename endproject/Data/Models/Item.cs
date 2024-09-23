@@ -6,28 +6,26 @@ using SQLite;
 namespace endproject.Data.Models;
 
 [SQLite.Table("Items")]
-public class Item: INotifyPropertyChanged
-{
-    [PrimaryKey, AutoIncrement]
+public class Item : INotifyPropertyChanged {
+    private bool _isMessageVisible;
+
+    [PrimaryKey]
+    [AutoIncrement]
     [SQLite.Column("id")]
     public int Id { get; set; }
 
-    [SQLite.Column("title")]
-    public string Title { get; set; } = default!;
+    [SQLite.Column("title")] public string Title { get; set; } = default!;
 
-    [SQLite.Column("message")]
-    public string Message { get; set; } = default!;
+    [SQLite.Column("message")] public string Message { get; set; } = default!;
 
-    [SQLite.Column("owner_id"), ForeignKey("OwnerId")]
+    [SQLite.Column("owner_id")]
+    [ForeignKey("OwnerId")]
     public int OwnerId { get; set; }
 
-    private bool _isMessageVisible;
     [Ignore]
-    public bool IsMessageVisible
-    {
+    public bool IsMessageVisible {
         get => _isMessageVisible;
-        set
-        {
+        set {
             _isMessageVisible = value;
             OnPropertyChanged();
         }
@@ -35,8 +33,7 @@ public class Item: INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null) {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

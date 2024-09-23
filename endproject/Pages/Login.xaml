@@ -5,9 +5,9 @@
              x:Class="endproject.Pages.Login">
     <ContentPage.Content>
         <StackLayout Padding="10">
-            <Entry Placeholder="Username" Text="{Binding Username}"></Entry>
-            <Entry Placeholder="Password" Text="{Binding Password}" IsPassword="True"></Entry>
-            <Button Text="Login" Command="{Binding LoginCommand}"></Button>
+            <Entry Placeholder="Username" Text="{Binding Username}" />
+            <Entry Placeholder="Password" Text="{Binding Password}" IsPassword="True" />
+            <Button Text="Login" Command="{Binding LoginCommand}" />
             <Label Text="{Binding ErrorMessage}" TextColor="Red" />
         </StackLayout>
     </ContentPage.Content>
