@@ -6,7 +6,7 @@
        x:Class="endproject.Pages.MainShell"
        Shell.FlyoutBehavior="Disabled">
     <TabBar>
-        <Tab Title="List">
+        <Tab Title="Items">
             <ShellContent ContentTemplate="{DataTemplate main:MainPage}" />
         </Tab>
         <Tab Title="Users">

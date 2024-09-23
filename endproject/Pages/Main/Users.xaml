@@ -4,25 +4,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="endproject.Pages.Main.Users">
     <ContentPage.Content>
-        <Grid Padding="10">
+        <Grid Padding="10"
+              WidthRequest="750"
+              RowSpacing="10">
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
-            <ScrollView>
+            <Label Grid.Row="0" Text="Registered users" FontSize="32" FontAttributes="Bold" />
+
+            <ScrollView Grid.Row="1">
                 <ListView ItemsSource="{Binding UsersList}" BackgroundColor="Transparent">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Label Padding="5,10" Text="{Binding Username}" />
+                                <Frame CornerRadius="10" Padding="10" Margin="0,5" BackgroundColor="#1A1A1A">
+                                    <Label Text="{Binding Username}" />
+                                </Frame>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
             </ScrollView>
 
-            <Grid Grid.Row="1" VerticalOptions="End">
+            <Grid Grid.Row="2" VerticalOptions="End" ColumnSpacing="10" RowSpacing="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
@@ -32,7 +39,8 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Label Text="{Binding ErrorMessage}" TextColor="Red" />
+
+                <Label Text="{Binding ErrorMessage}" TextColor="OrangeRed" />
                 <Entry Grid.Column="0" Grid.Row="1" Placeholder="Username" Text="{Binding Username}" />
                 <Entry Grid.Column="0" Grid.Row="2" Placeholder="Password" Text="{Binding Password}" IsPassword="True" />
                 <Button Grid.Column="1" Grid.Row="2" Text="Add" Command="{Binding AddCommand}" />

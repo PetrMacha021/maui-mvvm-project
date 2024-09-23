@@ -46,6 +46,8 @@ public class Login : BindableObject {
     private async void OnLogin() {
         var (isAuthenticated, user) = await _authService.ValidateCredentialsAsync(Username, Password);
 
+        Password = "";
+
         if (isAuthenticated && user != null) {
             await SecureStorage.Default.SetAsync("auth_id", user.Id.ToString());
             Application.Current.MainPage = new MainShell();
@@ -53,7 +55,5 @@ public class Login : BindableObject {
         else {
             ErrorMessage = "Invalid username or password";
         }
-
-        Password = "";
     }
 }

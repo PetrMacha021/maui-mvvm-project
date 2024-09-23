@@ -11,62 +11,71 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid Padding="10">
+        <Grid Padding="10"
+              WidthRequest="750"
+              RowSpacing="10">
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
-            <ScrollView>
+            <Label Grid.Row="0" Text="Your items" FontSize="32" FontAttributes="Bold" />
+
+            <ScrollView Grid.Row="1">
                 <ListView ItemsSource="{Binding Items}" BackgroundColor="Transparent"
                           ItemSelected="ListView_OnItemSelected" Unfocused="VisualElement_OnUnfocused">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto" />
-                                        <RowDefinition Height="auto" />
-                                    </Grid.RowDefinitions>
+                                <Frame CornerRadius="10" Padding="10" Margin="0,5" BackgroundColor="#1A1A1A">
+                                    <Grid RowSpacing="5" ColumnSpacing="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
 
-                                    <Label Padding="5,10" Text="{Binding Title}" />
+                                        <Label Padding="5,10" Text="{Binding Title}" />
+                                        <Label Grid.Row="1" Grid.Column="0" Padding="5,5" Text="{Binding Message}"
+                                               IsVisible="{Binding IsMessageVisible}" />
 
-                                    <Label Grid.Row="1" Grid.Column="0" Padding="5,5" Text="{Binding Message}"
-                                           IsVisible="{Binding IsMessageVisible}" />
-
-                                    <Button Grid.Row="0" Grid.Column="1" HorizontalOptions="End" Text="Edit"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:Main}}, Path=EditItem}"
-                                            CommandParameter="{Binding .}" />
-                                    <Button Grid.Row="0" Grid.Column="2" HorizontalOptions="End" Text="Remove"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:Main}}, Path=RemoveItem}"
-                                            CommandParameter="{Binding Id}" />
-                                </Grid>
+                                        <Button Grid.Row="0" Grid.Column="1" HorizontalOptions="End" Text="Edit"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:Main}}, Path=EditItem}"
+                                                CommandParameter="{Binding .}" />
+                                        <Button Grid.Row="0" Grid.Column="2" HorizontalOptions="End" Text="Remove"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:Main}}, Path=RemoveItem}"
+                                                CommandParameter="{Binding Id}" BackgroundColor="OrangeRed" />
+                                    </Grid>
+                                </Frame>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
             </ScrollView>
 
-            <Grid Grid.Row="1" VerticalOptions="End">
+            <Grid Grid.Row="2" VerticalOptions="End" ColumnSpacing="10" RowSpacing="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="80" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Text="{Binding ErrorMessage}" TextColor="Red" />
+
+                <Label Grid.Row="0" Grid.Column="0" Text="{Binding ErrorMessage}" TextColor="OrangeRed" />
                 <Entry Grid.Row="1" Grid.Column="0" Placeholder="Title" Text="{Binding Title, Mode=TwoWay}" />
                 <Entry Grid.Row="2" Grid.Column="0" Placeholder="Message" Text="{Binding Message, Mode=TwoWay}" />
-                <Button Grid.Row="1" Grid.Column="1" Text="Cancel" BackgroundColor="Red" IsVisible="{Binding InEdit}" Command="{Binding Cancel}" />
-                <Button Grid.Row="2" Grid.Column="1" Text="{Binding InEdit, Converter={StaticResource Edit}}" Command="{Binding AddCommand}" />
+                <Button Grid.Row="1" Grid.Column="1" Text="Cancel" BackgroundColor="OrangeRed" IsVisible="{Binding InEdit}"
+                        Command="{Binding Cancel}" />
+                <Button Grid.Row="2" Grid.Column="1" Text="{Binding InEdit, Converter={StaticResource Edit}}"
+                        Command="{Binding AddCommand}" />
             </Grid>
         </Grid>
     </ContentPage.Content>
