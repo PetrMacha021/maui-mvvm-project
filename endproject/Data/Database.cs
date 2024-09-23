@@ -31,7 +31,7 @@ public class Database {
         return task.Result;
     }
 
-    public async Task<User> GetUserByUsernameAsync(string username) {
+    public async Task<User?> GetUserByUsernameAsync(string username) {
         await Init();
 
         return await _database.Table<User>().FirstOrDefaultAsync(u => u.Username == username);
@@ -51,7 +51,7 @@ public class Database {
         return await _database.Table<User>().ToListAsync();
     }
 
-    public async Task<User> GetUser(int id) {
+    public async Task<User?> GetUser(int id) {
         await Init();
 
         return await _database.Table<User>().Where(u => u.Id == id).FirstOrDefaultAsync();

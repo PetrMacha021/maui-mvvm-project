@@ -67,6 +67,7 @@ public class Main : BindableObject {
         get => _message;
         set {
             _message = value;
+            ErrorMessage = "";
             OnPropertyChanged();
         }
     }
@@ -75,6 +76,7 @@ public class Main : BindableObject {
         get => _title;
         set {
             _title = value;
+            ErrorMessage = "";
             OnPropertyChanged();
         }
     }

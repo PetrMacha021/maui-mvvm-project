@@ -19,6 +19,7 @@ public class Login : BindableObject {
         get => _username;
         set {
             _username = value;
+            ErrorMessage = "";
             OnPropertyChanged();
         }
     }
@@ -27,6 +28,7 @@ public class Login : BindableObject {
         get => _password;
         set {
             _password = value;
+            ErrorMessage = "";
             OnPropertyChanged();
         }
     }

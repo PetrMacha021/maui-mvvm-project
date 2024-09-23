@@ -10,9 +10,10 @@ namespace endproject.ViewModels;
 public class Profile : BindableObject {
     private readonly Database _database;
     private readonly int _id;
-    private string _password;
     private readonly User _user;
     private string _username;
+    private string _password;
+    private string _errorMessage;
 
     public Profile(Database database) {
         _database = database;
@@ -29,6 +30,10 @@ public class Profile : BindableObject {
         _id = int.Parse(id);
 
         var user = Task.Run(async () => await _database.GetUser(_id)).Result;
+        if (user == null) {
+            Logout();
+            return;
+        }
 
         Username = user.Username;
         _user    = user;
@@ -37,7 +42,8 @@ public class Profile : BindableObject {
     public string Username {
         get => _username;
         set {
-            _username = value;
+            _username    = value;
+            ErrorMessage = "";
             OnPropertyChanged();
         }
     }
@@ -45,7 +51,16 @@ public class Profile : BindableObject {
     public string Password {
         get => _password;
         set {
-            _password = value;
+            _password    = value;
+            ErrorMessage = "";
+            OnPropertyChanged();
+        }
+    }
+
+    public string ErrorMessage {
+        get => _errorMessage;
+        set {
+            _errorMessage = value;
             OnPropertyChanged();
         }
     }
@@ -56,7 +71,18 @@ public class Profile : BindableObject {
     private async void OnChange() {
         var changed = false;
 
+        if (string.IsNullOrEmpty(_username) && string.IsNullOrEmpty(_password)) {
+            ErrorMessage = "Fill in at least one entry";
+            return;
+        }
+
         if (_user.Username != _username) {
+            var existingUser = Task.Run(() => _database.GetUserByUsernameAsync(_username)).Result;
+            if (existingUser != null) {
+                ErrorMessage = "User with this username already exists";
+                return;
+            }
+
             _user.Username = _username;
             changed        = true;
         }
@@ -70,17 +96,15 @@ public class Profile : BindableObject {
             changed        = true;
         }
 
-        if (changed) await _database.SaveUserAsync(_user);
+        if (changed) {
+            await _database.SaveUserAsync(_user);
+            ErrorMessage = "";
+        }
+        else ErrorMessage = "No data has been changed";
     }
 
     public static void Logout() {
         SecureStorage.Default.Remove("auth_id");
         Application.Current.MainPage = new AppShell();
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null) {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

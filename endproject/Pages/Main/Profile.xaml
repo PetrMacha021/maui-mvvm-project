@@ -7,6 +7,7 @@
         <VerticalStackLayout>
             <Entry Placeholder="Username" Text="{Binding Username}" />
             <Entry Placeholder="Password" Text="{Binding Password}" IsPassword="True" />
+            <Label Text="{Binding ErrorMessage}" TextColor="Red" />
             <Button Text="Change" Command="{Binding ChangeCommand}" />
             <Button Text="Logout" Command="{Binding LogoutCommand}" />
         </VerticalStackLayout>
