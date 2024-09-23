@@ -13,10 +13,18 @@ public class Main : BindableObject {
 
     private string _message;
     private Item? _selectedItem;
-
     private string _title;
-
     private string _errorMessage;
+
+    private bool _inEdit;
+
+    public bool InEdit {
+        get => _inEdit;
+        set {
+            _inEdit = value;
+            OnPropertyChanged();
+        }
+    }
 
     public Main(Database database) {
         _database = database;
@@ -34,6 +42,7 @@ public class Main : BindableObject {
         AddCommand = new Command(OnAdd);
         RemoveItem = new Command(OnRemoveItem);
         EditItem   = new Command(OnEditItem);
+        Cancel     = new Command(OnCancel);
     }
 
     private Database _database { get; }
@@ -62,11 +71,12 @@ public class Main : BindableObject {
     public ICommand AddCommand { get; }
     public ICommand RemoveItem { get; }
     public ICommand EditItem { get; }
+    public ICommand Cancel { get; }
 
     public string Message {
         get => _message;
         set {
-            _message = value;
+            _message     = value;
             ErrorMessage = "";
             OnPropertyChanged();
         }
@@ -75,7 +85,7 @@ public class Main : BindableObject {
     public string Title {
         get => _title;
         set {
-            _title = value;
+            _title       = value;
             ErrorMessage = "";
             OnPropertyChanged();
         }
@@ -103,6 +113,15 @@ public class Main : BindableObject {
             return;
         }
 
+        if (InEdit) {
+            await OnEdit();
+            InEdit       = false;
+            Title        = "";
+            Message      = "";
+            SelectedItem = null;
+            return;
+        }
+
         var newItem = new Item {
             Title   = _title,
             Message = _message,
@@ -117,6 +136,20 @@ public class Main : BindableObject {
         ErrorMessage = "";
     }
 
+    private async Task OnEdit() {
+        if (SelectedItem == null) {
+            ErrorMessage = "No item selected";
+            return;
+        }
+
+        SelectedItem.Title   = _title;
+        SelectedItem.Message = _message;
+
+        await _database.SaveItemAsync(SelectedItem);
+
+        Items = new ObservableCollection<Item>(_database.GetItems(_id));
+    }
+
     private async void OnRemoveItem(object parameter) {
         if (parameter is not int id) return;
 
@@ -128,6 +161,14 @@ public class Main : BindableObject {
 
     private void OnEditItem(object parameter) {
         if (parameter is not Item item) return;
+        InEdit       = true;
         SelectedItem = item;
+    }
+
+    private void OnCancel() {
+        InEdit       = false;
+        Title        = "";
+        Message      = "";
+        SelectedItem = null;
     }
 }

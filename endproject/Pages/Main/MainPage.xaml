@@ -3,7 +3,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="using:endproject.ViewModels"
+             xmlns:converters="clr-namespace:endproject.Converters"
              x:Class="endproject.Pages.Main.MainPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:Edit x:Key="Edit" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid Padding="10">
             <Grid.RowDefinitions>
@@ -59,7 +65,8 @@
                 <Label Grid.Row="0" Grid.Column="0" Text="{Binding ErrorMessage}" TextColor="Red" />
                 <Entry Grid.Row="1" Grid.Column="0" Placeholder="Title" Text="{Binding Title, Mode=TwoWay}" />
                 <Entry Grid.Row="2" Grid.Column="0" Placeholder="Message" Text="{Binding Message, Mode=TwoWay}" />
-                <Button Grid.Row="2" Grid.Column="1" Text="Add" Command="{Binding AddCommand}" />
+                <Button Grid.Row="1" Grid.Column="1" Text="Cancel" BackgroundColor="Red" IsVisible="{Binding InEdit}" Command="{Binding Cancel}" />
+                <Button Grid.Row="2" Grid.Column="1" Text="{Binding InEdit, Converter={StaticResource Edit}}" Command="{Binding AddCommand}" />
             </Grid>
         </Grid>
     </ContentPage.Content>
