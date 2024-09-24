@@ -12,7 +12,7 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <Grid Padding="10"
-              WidthRequest="750"
+              MaximumWidthRequest="750"
               RowSpacing="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
@@ -40,7 +40,7 @@
                                             <RowDefinition Height="auto" />
                                         </Grid.RowDefinitions>
 
-                                        <Label Padding="5,10" Text="{Binding Title}" />
+                                        <Label Padding="5,10" Text="{Binding Title}" FontAttributes="Bold" />
                                         <Label Grid.Row="1" Grid.Column="0" Padding="5,5" Text="{Binding Message}"
                                                IsVisible="{Binding IsMessageVisible}" />
 

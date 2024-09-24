@@ -5,8 +5,9 @@
              x:Class="endproject.Pages.Login">
     <ContentPage.Content>
         <Grid Padding="10"
+              HorizontalOptions="FillAndExpand"
               VerticalOptions="Center"
-              WidthRequest="750"
+              MaximumWidthRequest="750"
               RowSpacing="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />

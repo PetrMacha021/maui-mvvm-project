@@ -18,8 +18,10 @@ public class Database {
         var adminSalt     = AuthService.GenerateSalt();
         var adminPassword = AuthService.HashPassword("admin", adminSalt);
         // TODO: Make this save only on database creation
-        // await SaveUserAsync(new User { Username = "admin", Password = adminPassword, Salt = adminSalt });
-        // await SaveItemAsync(new Item { Message = "test", OwnerId = 1 });
+        if (await GetUserByUsernameAsync("admin") == null) {
+            await SaveUserAsync(new User { Username = "admin", Password = adminPassword, Salt = adminSalt });
+            await SaveItemAsync(new Item { Message  = "test", OwnerId   = 1 });
+        }
     }
 
     public List<Item> GetItems(int id) {
